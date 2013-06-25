@@ -1,0 +1,13 @@
+{
+  "name": "nopents",
+  "version": "0.0.1",
+  "description": "Node OpenTSDB client",
+  "main": "index.js",
+  "repository": "",
+  "keywords": [
+    "tsdb",
+    "opentsdb"
+  ],
+  "author": "Zack Bloom <zbloom@hubspot.com>",
+  "license": "MIT"
+}
