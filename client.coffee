@@ -7,6 +7,8 @@ Unhapi = require('unhapi')('nopents:client')
 
 class Client
   constructor: (@options) ->
+    unless @options.port and @options.host
+      throw "You must provide a port and host"
 
   open: ->
     unless @openPromise?
