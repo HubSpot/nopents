@@ -9,5 +9,11 @@
     "opentsdb"
   ],
   "author": "Zack Bloom <zbloom@hubspot.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "coffee-script": "~1.6.3",
+    "q": "~0.9.6",
+    "underscore": "~1.4.4",
+    "unhapi": "~0.8.3"
+  }
 }
