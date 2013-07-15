@@ -28,7 +28,7 @@ class Client
         if @openPromise?.isPending()
           @openPromise.reject err
 
-      client.on 'end', =>
+      client.on 'close', =>
         @openPromise = null
 
     @openPromise.promise
