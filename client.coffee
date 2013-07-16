@@ -11,7 +11,7 @@ class Client
       throw "You must provide a port and host"
 
   open: ->
-    unless @openPromise?
+    if not @openPromise? or @openPromise.promise.isRejected()
       @openPromise = Q.defer()
 
       opts = _.pick @options, 'host', 'port'
