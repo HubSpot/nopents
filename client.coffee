@@ -41,13 +41,9 @@ class Client
       for item in data
         continue unless not item.unit? or item.unit is 'ms'
 
-        if not item.tags?
-          item.tags = {
-            source: 'bucky'
-          }
-        else
-          item.tags['source'] = 'bucky'
-        tagString = _(item.tags).pairs().map((pair) -> pair.join('=')).join(' ')
+        tagString = ""
+        if item.tags?
+          tagString = _(item.tags).pairs().map((pair) -> pair.join('=')).join(' ')
 
         rows.push "put #{ item.key } #{ now } #{ item.val } #{ tagString }"
 
