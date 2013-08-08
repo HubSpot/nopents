@@ -39,7 +39,6 @@ class Client
       rows = []
 
       for item in data
-        continue unless not item.unit? or item.unit is 'ms'
 
         tagString = ""
         if item.tags?
