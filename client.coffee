@@ -38,31 +38,16 @@ class Client
       now = Math.floor(+new Date / 1000)
       rows = []
 
-      for key, desc of data
-        [val, unit, sample] = @parseRow desc
+      for item in data
 
-        continue unless unit is 'ms'
+        tagString = ""
+        if item.tags?
+          tagString = _(item.tags).pairs().map((pair) -> pair.join('=')).join(' ')
 
-        tags = {
-          source: 'bucky'
-        }
-        tagString = _(tags).pairs().map((pair) -> pair.join('=')).join(' ')
-
-        rows.push "put #{ key } #{ now } #{ val } #{ tagString }"
+        rows.push "put #{ item.key } #{ now } #{ item.val } #{ tagString }"
 
       client.write rows.join('\n') + '\n'
 
     @openPromise
-
-  parseRow: (row) ->
-    re = /([0-9\.]+)\|([a-z]+)(?:@([0-9\.]+))?/
-
-    groups = re.exec(row)
-
-    unless groups
-      Unhapi.error "Unparsable row: #{ row }"
-      return
-
-    groups.slice(1, 4)
 
 module.exports = Client
