@@ -25,7 +25,7 @@ class Client
       client.on 'error', (err) =>
         Unhapi.error err, 'on socket'
 
-        if @openPromise?.isPending()
+        if @openPromise?.promise.isPending()
           @openPromise.reject err
 
       client.on 'close', =>
