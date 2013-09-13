@@ -3,8 +3,6 @@ net = require('net')
 Q = require('q')
 _ = require('underscore')
 
-Unhapi = require('unhapi')('nopents:client')
-
 class Client
   constructor: (@options) ->
     unless @options.port and @options.host
@@ -23,7 +21,7 @@ class Client
         @openPromise.resolve client
 
       client.on 'error', (err) =>
-        Unhapi.error err, 'on socket'
+        console.error err, 'on socket'
 
         if @openPromise?.promise.isPending()
           @openPromise.reject err
