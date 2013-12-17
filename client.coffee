@@ -15,29 +15,28 @@ class Client
       opts = _.pick @options, 'host', 'port'
       opts.port = +opts.port
 
-      client = net.connect opts
+      @client = net.connect opts
 
-      client.on 'connect', =>
-        @openPromise.resolve client
+      @client.on 'connect', =>
+        @openPromise.resolve @client
 
-      client.on 'error', (err) =>
+      @client.on 'error', (err) =>
         console.error err, 'on socket'
 
         if @openPromise?.promise.isPending()
-          @openPromise.reject err
+          @openPromise = null
 
-      client.on 'close', =>
+      @client.on 'close', =>
         @openPromise = null
 
     @openPromise.promise
 
   send: (data) ->
-    @open().then (client) =>
+    send = (client) =>
       now = Math.floor(+new Date / 1000)
       rows = []
 
       for item in data
-
         tagString = ""
         if item.tags?
           tagString = _(item.tags).pairs().map((pair) -> pair.join('=')).join(' ')
@@ -45,7 +44,10 @@ class Client
         rows.push "put #{ item.key } #{ now } #{ item.val } #{ tagString }"
 
       client.write rows.join('\n') + '\n'
-
-    @openPromise
+      
+    if not @openPromise? or @openPromise.promise.isRejected()
+      @open().then send
+    else
+      send(@client)
 
 module.exports = Client
