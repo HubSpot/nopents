@@ -35,6 +35,7 @@ class Client
     send = (client) =>
       now = Math.floor(+new Date / 1000)
       rows = []
+      sendDeferred = Q.defer()
 
       for item in data
         tagString = ""
@@ -45,9 +46,16 @@ class Client
 
       client.write rows.join('\n') + '\n'
       
+        console.log "callback... error", error
+        return sendDeferred.reject(error) if error?
+        sendDeferred.resolve()
+
+      sendDeferred.promise
+
     if not @openPromise? or @openPromise.promise.isRejected()
       @open().then send
     else
       Q(send(@client))
+      send(@client)
 
 module.exports = Client
