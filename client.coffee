@@ -55,7 +55,6 @@ class Client
     if not @openPromise? or @openPromise.promise.isRejected()
       @open().then send
     else
-      Q(send(@client))
       send(@client)
 
 module.exports = Client
