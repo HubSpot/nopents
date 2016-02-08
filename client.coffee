@@ -46,6 +46,7 @@ class Client
 
       client.write rows.join('\n') + '\n'
       
+      client.write rows.join('\n') + '\n', (error) ->
         console.log "callback... error", error
         return sendDeferred.reject(error) if error?
         sendDeferred.resolve()
