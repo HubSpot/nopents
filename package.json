@@ -1,6 +1,6 @@
 {
   "name": "nopents",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Node OpenTSDB client",
   "main": "index.js",
   "keywords": [
