@@ -38,9 +38,11 @@ class Client
       sendDeferred = Q.defer()
 
       for item in data
-        tagString = ""
-        if item.tags?
+
+        if item.tags? and Object.keys(item.tags).length > 0
           tagString = _(item.tags).pairs().map((pair) -> pair.join('=')).join(' ')
+        else
+          throw new Error("Data sent to OpenTSDB requires at least one tag (but none was provied to Nopents)")
 
         rows.push "put #{ item.key } #{ now } #{ item.val } #{ tagString }"
 
